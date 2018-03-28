@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>GetPlayerSize Implementation</title>
+		<script type="text/javascript" src="XmlUtils.js"></script>    
+		<script type="text/javascript" src="SessionXmlParser.js"></script>
+		<script type="text/javascript">
+			var oSessionXmlParser = new SessionXmlParser("./Session.xml");
+			var PlayerJSFilePath = oSessionXmlParser.GetPlayerJSFile();
+			var IncludeString = '<script type="text/javascript" src="'+PlayerJSFilePath+'"></'+'script>';
+			document.write(IncludeString);
+		</script>   
+	</head>   
+	<body>
+		<script type="text/javascript">
+		
+		// Globals.
+		var g_oPlayerSizeMng = null;
+		
+		//-----------------------------------------------------------------------
+		function CreatePlayerSizeManager(bEmbeddedInViewer)
+		{
+			try
+			{
+				g_oPlayerSizeMng = new PlayerSizeManager(oSessionXmlParser,bEmbeddedInViewer);
+			}
+			catch(e){}
+		} // CreatePlayerSizeManager
+
+		//-----------------------------------------------------------------------
+		function GetPlayerOptimalSize(oAvailableSize,bEmbeddedInViewer)
+		{
+			var oPlayerSize = null;
+				
+			try
+			{
+				if(!IsObject(g_oPlayerSizeMng))
+					CreatePlayerSizeManager(bEmbeddedInViewer);
+				
+				oPlayerSize = g_oPlayerSizeMng.GetPlayerOptimalSize(oAvailableSize);
+			}
+			catch(e){}
+			
+			return oPlayerSize;
+		} // GetPlayerSize
+
+		</script>
+	</body>
+</html>

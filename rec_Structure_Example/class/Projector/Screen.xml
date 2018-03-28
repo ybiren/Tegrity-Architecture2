@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DATA id="Screen" time="0" stream="true" type="VideoAudio" dur="134655"><SGMTS><SGMT inx="1" time="0" type="VideoAudio" fmt="WM" dur="134655"><SMPL inx="1" time="0" ftime="0" dur="133829" timer="true" profile="screen" src="screen1.asf" width="1680" height="1050"/></SGMT></SGMTS><PREL><ITEM src="screen1.asf" type="VideoAudio" fmt="WM" vcodec="{31435657-0000-0010-8000-00AA00389B71}"/></PREL></DATA>

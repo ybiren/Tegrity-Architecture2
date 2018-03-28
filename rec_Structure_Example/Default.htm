@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+	<title>Tegrity Player Start Page</title>
+	<script type="text/javascript" src="./Class/Request.js"></script>
+	<script type="text/javascript">
+	
+		//-----------------------------------------------------------------------
+		function Size(nWidth,nHeight)
+		{
+			this.width	= Number(nWidth);
+			this.height = Number(nHeight);
+		} // Size
+	
+		//-----------------------------------------------------------------------
+		function GetPlayerOptimalSize(oSize)
+		{
+			var bEmbeddedInViewer = Request.ClientVariables("Viewer") && Request.ClientVariables("Viewer") == "true";
+		
+			// Set defaults. (Best fit for 4x3 Screens)	
+			var nPlayerWidth  = 990;
+			var nPlayerHeight = 602 - (bEmbeddedInViewer ? 20:0);
+			var oPlayerSize		= null;
+			
+			// Try getting the Player size from the IFrame.
+			try
+			{
+				oPlayerSize	= document.getElementById("GPSIFrame").contentWindow.GetPlayerOptimalSize(oSize, bEmbeddedInViewer); 
+			}catch(e){}
+	
+			// Validate return size.
+			if(!oPlayerSize || typeof oPlayerSize != "object" || typeof oPlayerSize.width != "number" || typeof oPlayerSize.height != "number")
+				oPlayerSize = new Size(nPlayerWidth,nPlayerHeight);
+	
+			return oPlayerSize; 
+		} // GetPlayerOptimalSize
+	
+		//-----------------------------------------------------------------------
+		function OpenSessionWindow()
+		{
+			var oPlayerSize = GetPlayerOptimalSize(new Size(-1,-1));
+			var windowprops = "menubars=no,toolbars=no,resizable=yes,status=no,scrollbars=no,channelmode=no,height=" + oPlayerSize.height + ",width=" + oPlayerSize.width + ",top=15,left=15";
+			var popupname = "TegritySessionWindow"+ (new Date()).getTime();
+			window.open("./Class/TegrityPlayer.htm?"+Request.m_QueryString,popupname, windowprops); 
+		} // OpenSessionWindow
+	  
+	</script>
+</head>
+<body onload="OpenSessionWindow();">
+	<iframe id="GPSIFrame" style="width:1px;height:1px;display:none;visibility:hidden;" src="./Class/GetPlayerSize.htm"></iframe>
+	<span>Your Tegrity session should begin shortly. If it does not, try clicking <a href="javascript:;" onclick="OpenSessionWindow();">here</a></span>
+</body>
+</html>
